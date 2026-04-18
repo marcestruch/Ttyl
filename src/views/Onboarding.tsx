@@ -24,7 +24,7 @@ export default function Onboarding() {
     <div className="flex min-h-screen flex-col items-center justify-center p-6 bg-background text-foreground transition-colors">
       <div className="w-full max-w-md space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
         <div className="space-y-2 text-center">
-          <h1 className="text-4xl font-serif text-primary">Welcome to Ttyl</h1>
+          <h1 className="text-4xl font-semibold tracking-tight text-primary">Welcome to Ttyl</h1>
           <p className="text-muted-foreground">Let's set up your focus environment.</p>
         </div>
 
@@ -37,7 +37,7 @@ export default function Onboarding() {
                 value={name}
                 onChange={e => setName(e.target.value)}
                 placeholder="Name or Alias"
-                className="bg-transparent border-t-0 border-l-0 border-r-0 border-b border-border rounded-none shadow-none focus-visible:ring-0 focus-visible:border-primary px-0 pb-2 text-lg"
+                className="bg-transparent border-t-0 border-l-0 border-r-0 border-b border-border rounded-none shadow-none focus-visible:ring-0 focus-visible:border-primary px-0 pb-2 text-lg transition-colors"
                 autoFocus
                 required
               />
@@ -50,7 +50,7 @@ export default function Onboarding() {
                 value={goal}
                 onChange={e => setGoal(e.target.value)}
                 placeholder="e.g. Ship my new side project"
-                className="bg-transparent border-t-0 border-l-0 border-r-0 border-b border-border rounded-none shadow-none focus-visible:ring-0 focus-visible:border-primary px-0 pb-2 text-lg"
+                className="bg-transparent border-t-0 border-l-0 border-r-0 border-b border-border rounded-none shadow-none focus-visible:ring-0 focus-visible:border-primary px-0 pb-2 text-lg transition-colors"
               />
             </div>
 
@@ -63,12 +63,12 @@ export default function Onboarding() {
                 max={120}
                 value={time}
                 onChange={e => setTime(Number(e.target.value))}
-                className="bg-transparent border-t-0 border-l-0 border-r-0 border-b border-border rounded-none shadow-none focus-visible:ring-0 focus-visible:border-primary px-0 pb-2 text-lg"
+                className="bg-transparent border-t-0 border-l-0 border-r-0 border-b border-border rounded-none shadow-none focus-visible:ring-0 focus-visible:border-primary px-0 pb-2 text-lg transition-colors"
               />
             </div>
           </div>
 
-          <Button type="submit" className="w-full h-12 text-lg bg-primary hover:bg-primary/90 rounded-xl transition-all">
+          <Button type="submit" className="w-full h-12 text-lg bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98]">
             Start Focusing
           </Button>
         </form>

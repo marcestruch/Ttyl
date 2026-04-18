@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AppState, Task, UserData, loadState, saveState } from '../lib/storage';
+import { AppState, Task, UserData, loadState, saveState, Project, FocusSession, DEFAULT_PROJECT_ID } from '../lib/storage';
 
 interface AppStore extends AppState {
   init: () => Promise<void>;
@@ -10,12 +10,24 @@ interface AppStore extends AppState {
   deleteTask: (taskId: string) => Promise<void>;
   updateTask: (taskId: string, updates: Partial<Task>) => Promise<void>;
   setTheme: (theme: 'light' | 'dark' | 'system') => Promise<void>;
+  
+  addProject: (project: Project) => Promise<void>;
+  updateProject: (projectId: string, updates: Partial<Project>) => Promise<void>;
+  deleteProject: (projectId: string) => Promise<void>;
+  setActiveProject: (projectId: string | null) => Promise<void>;
+  
+  addFocusSession: (session: FocusSession) => Promise<void>;
+  toggleSidebar: () => Promise<void>;
 }
 
 export const useAppStore = create<AppStore>((set, get) => ({
   hasOnboarded: false,
   user: { name: '', mainGoal: '', timeBlockDuration: 25 },
+  projects: [],
   tasks: [],
+  focusSessions: [],
+  activeProjectId: null,
+  sidebarOpen: true,
   theme: 'system',
 
   init: async () => {
@@ -53,7 +65,13 @@ export const useAppStore = create<AppStore>((set, get) => ({
 
   toggleTask: async (taskId: string) => {
     const state = get();
-    const tasks = state.tasks.map(t => t.id === taskId ? { ...t, completed: !t.completed } : t);
+    const tasks = state.tasks.map(t => {
+      if (t.id === taskId) {
+        const completed = !t.completed;
+        return { ...t, completed, completedAt: completed ? Date.now() : undefined };
+      }
+      return t;
+    });
     const newState = { ...state, tasks };
     set(newState);
     await saveState(newState);
@@ -86,5 +104,54 @@ export const useAppStore = create<AppStore>((set, get) => ({
     } else {
       document.documentElement.classList.remove('dark');
     }
+  },
+
+  addProject: async (project: Project) => {
+    const state = get();
+    const newState = { ...state, projects: [...state.projects, project] };
+    set(newState);
+    await saveState(newState);
+  },
+
+  updateProject: async (projectId: string, updates: Partial<Project>) => {
+    const state = get();
+    const projects = state.projects.map(p => p.id === projectId ? { ...p, ...updates } : p);
+    const newState = { ...state, projects };
+    set(newState);
+    await saveState(newState);
+  },
+
+  deleteProject: async (projectId: string) => {
+    const state = get();
+    const projects = state.projects.filter(p => p.id !== projectId);
+    const tasks = state.tasks.map(t => t.projectId === projectId ? { ...t, projectId: DEFAULT_PROJECT_ID } : t);
+    let activeProjectId = state.activeProjectId;
+    if (activeProjectId === projectId) {
+      activeProjectId = projects.length > 0 ? projects[0].id : DEFAULT_PROJECT_ID;
+    }
+    const newState = { ...state, projects, tasks, activeProjectId };
+    set(newState);
+    await saveState(newState);
+  },
+
+  setActiveProject: async (projectId: string | null) => {
+    const state = get();
+    const newState = { ...state, activeProjectId: projectId };
+    set(newState);
+    await saveState(newState);
+  },
+
+  addFocusSession: async (session: FocusSession) => {
+    const state = get();
+    const newState = { ...state, focusSessions: [...state.focusSessions, session] };
+    set(newState);
+    await saveState(newState);
+  },
+
+  toggleSidebar: async () => {
+    const state = get();
+    const newState = { ...state, sidebarOpen: !state.sidebarOpen };
+    set(newState);
+    await saveState(newState);
   }
 }));

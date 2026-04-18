@@ -3,16 +3,17 @@ import { useAppStore } from '../store/useAppStore';
 import { invoke } from '@tauri-apps/api/core';
 import { Button } from '../components/ui/button';
 import { X, Check } from 'lucide-react';
+import { FocusSession } from '../lib/storage';
 
 export default function FocusMode({ taskId, onStopFocus }: { taskId: string, onStopFocus: () => void }) {
-  const { tasks, user, toggleTask, updateTask } = useAppStore();
+  const { tasks, user, toggleTask, updateTask, addFocusSession } = useAppStore();
   const task = tasks.find(t => t.id === taskId);
   
   const [timeLeft, setTimeLeft] = useState(user.timeBlockDuration * 60);
   const [isRunning, setIsRunning] = useState(false);
+  const [startTime] = useState(Date.now());
 
   useEffect(() => {
-    // Component Mount: try to run on_start.sh
     invoke('run_system_script', { scriptName: 'on_start.sh' })
       .then(res => console.log('Hook executed:', res))
       .catch(err => console.error('Hook err:', err));
@@ -20,7 +21,6 @@ export default function FocusMode({ taskId, onStopFocus }: { taskId: string, onS
     setIsRunning(true);
 
     return () => {
-      // Component Unmount: try to run on_stop.sh
       invoke('run_system_script', { scriptName: 'on_stop.sh' })
         .then(res => console.log('Hook executed:', res))
         .catch(err => console.error('Hook err:', err));
@@ -35,19 +35,48 @@ export default function FocusMode({ taskId, onStopFocus }: { taskId: string, onS
       }, 1000);
     } else if (timeLeft === 0 && isRunning) {
       setIsRunning(false);
-      // add pomodoro logic if desired
-      if (task) {
-         updateTask(task.id, { pomodoros: task.pomodoros + 1 });
-      }
+      handleCompletePomodoro();
     }
     return () => clearInterval(interval);
-  }, [isRunning, timeLeft, task, updateTask]);
+  }, [isRunning, timeLeft, task]);
+
+  const handleCompletePomodoro = () => {
+    if (task) {
+       updateTask(task.id, { pomodoros: task.pomodoros + 1 });
+       saveSession();
+    }
+  };
+
+  const saveSession = () => {
+    if (!task) return;
+    const durationMinutes = Math.round((Date.now() - startTime) / 60000);
+    if (durationMinutes > 0) {
+      const session: FocusSession = {
+        id: crypto.randomUUID(),
+        taskId: task.id,
+        startedAt: startTime,
+        endedAt: Date.now(),
+        durationMinutes
+      };
+      addFocusSession(session);
+    }
+  };
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
+  
+  const isUrgent = timeLeft > 0 && timeLeft <= 60;
 
   const handleComplete = () => {
-    if (task) toggleTask(task.id);
+    saveSession();
+    if (task && !task.completed) {
+      toggleTask(task.id);
+    }
+    onStopFocus();
+  };
+
+  const handleStop = () => {
+    saveSession();
     onStopFocus();
   };
 
@@ -56,7 +85,7 @@ export default function FocusMode({ taskId, onStopFocus }: { taskId: string, onS
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-8 bg-background text-foreground animate-in zoom-in-95 duration-700">
       <div className="absolute top-8 right-8">
-        <Button variant="ghost" size="icon" onClick={onStopFocus} className="rounded-full w-12 h-12 hover:bg-muted">
+        <Button variant="ghost" size="icon" onClick={handleStop} className="rounded-full w-12 h-12 hover:bg-muted">
           <X className="w-5 h-5 text-muted-foreground" />
         </Button>
       </div>
@@ -67,7 +96,10 @@ export default function FocusMode({ taskId, onStopFocus }: { taskId: string, onS
           <h2 className="text-3xl md:text-5xl font-medium tracking-tight leading-tight">{task.title}</h2>
         </div>
 
-        <div className="font-serif font-variant-numeric: tabular-nums text-[8rem] md:text-[12rem] xl:text-[16rem] leading-none text-primary tracking-tighter cursor-pointer select-none transition-transform hover:scale-105 active:scale-95" onClick={() => setIsRunning(!isRunning)}>
+        <div 
+          className={`font-sans font-semibold font-variant-numeric: tabular-nums text-[8rem] md:text-[12rem] xl:text-[16rem] leading-none tracking-tighter cursor-pointer select-none transition-all hover:scale-105 active:scale-95 ${!isRunning ? 'opacity-50 text-foreground' : 'text-primary'} ${isUrgent ? 'animate-pulse text-destructive' : ''}`}
+          onClick={() => setIsRunning(!isRunning)}
+        >
           {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
         </div>
 
