@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { Sidebar } from './Sidebar';
 import { useAppStore } from '../store/useAppStore';
 import { CommandPalette } from './CommandPalette';
 import { LayoutPanelLeft } from 'lucide-react';
 
 interface LayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
   onSettingsClick: () => void;
 }
 
@@ -24,7 +24,10 @@ export function Layout({ children, onSettingsClick }: LayoutProps) {
   }, [toggleSidebar]);
 
   return (
-    <div className="flex w-full h-screen overflow-hidden bg-background text-foreground">
+    <div 
+      className="flex w-full h-screen overflow-hidden bg-background text-foreground"
+      style={{ '--sidebar-width': sidebarOpen ? '288px' : '0px' } as React.CSSProperties}
+    >
       <Sidebar onSettingsClick={onSettingsClick} />
       
       <main className="flex-1 relative overflow-y-auto">

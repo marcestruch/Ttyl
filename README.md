@@ -1,66 +1,114 @@
 <div align="center">
-  <img src="public/ttyl_logo.png" alt="Ttyl Logo" width="200" />
+  <img src="app-icon.svg" alt="Ttyl Logo" width="160" />
   <h1>Ttyl · Talk To You Later</h1>
   <p><strong>A minimalist workspace and productivity timer for power users.</strong></p>
+
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![Tauri](https://img.shields.io/badge/built%20with-Tauri-24c8db.svg)](https://tauri.app/)
+  [![React](https://img.shields.io/badge/React-19-61dafb.svg)](https://react.dev/)
+  [![Version](https://img.shields.io/badge/version-0.1.0-orange.svg)](https://github.com/marcestruch/ttyl/releases)
 </div>
 
 <br />
 
-Ttyl (acrónimo de *"Talk To You Later"*) es una aplicación de escritorio open-source enfocada en ayudar a los desarrolladores y power-users a acceder a estados de "Deep Work" de forma rápida y minimalista.
+**Ttyl** (short for *"Talk To You Later"*) is a premium, open-source desktop application designed to bridge the gap between intent and execution. It provides a distraction-free environment for developers and power users to access "Deep Work" states with zero friction.
 
-Su filosofía central se resume en su propio nombre: *"Hablamos luego, ahora mismo estoy esculpiendo código"*. 
+Its core philosophy is simple: **"Talk to you later. I'm focusing right now."**
 
-La aplicación silencia el ruido visual mediante una interfaz premium y ultra-minimalista inspirada en los principios de diseño de Claude/Anthropic (paleta de colores suave, tipografía limpia serif/sans combinada, acentos terracota y una extrema escasez de bordes).
-
-## 🚀 Características Principales
-
-- **Focus Mode Zen**: Temporizador minimalista gigantesco para que tu única preocupación sea la tarea en pantalla.
-- **Paleta de Comandos Invocable**: Maneja toda la aplicación usando el teclado presionando `Ctrl + K`. Puedes cambiar tareas o el esquema de colores sin tocar el mouse.
-- **Hooks del Sistema (Power-users)**: Integración nativa con Linux a través de Rust. Al iniciar o detener el temporizador, la aplicación intentará de forma silenciosa ejecutar scripts locales en tu entorno (`~/.config/ttyl/on_start.sh` y `on_stop.sh`), permitiéndote pausar tus notificaciones (Do Not Disturb), apagar Slack, o iniciar música lo-fi en Spotify automáticamente.
-- **100% Persistencia Local**: Ttyl no necesita internet. Todo tu contexto (objetivos, configuración y tareas) se almacena nativamente y en plano como un `.json` en el interior tu directorio de configuración de aplicación bajo el paraguas de `Tauri FS Plugin`.
-- **Markdown Friendly**: Escribe descripciones de tus tareas con sintaxis fluida.
+Inspired by modern minimalist design principles (soft color palettes, clean typography, and a "texture-first" aesthetic), Ttyl silences the digital noise so you can focus on what truly matters: your craft.
 
 ---
 
-## 🛠 Stack Tecnológico
+## ✨ Key Features
 
-Ttyl aprovecha la velocidad extrema de Rust y el ecosistema moderno de frontend:
-
-- **Core/Backend:** Rust + Tauri v2
-- **Frontend UI:** React 19 + TypeScript + Vite
-- **Estilos:** Tailwind CSS v3
-- **Componentes:** shadcn/ui minimalista, cmdk local, Lucide React
-- **Datos Local:** Zustand + `@tauri-apps/plugin-fs`
+- **🧘 Zen Focus Mode**: A massive, immersive minimalist timer that hides everything except your current objective.
+- **⌨️ Command-Driven UI**: A powerful command palette (`Ctrl + K`) that lets you manage your entire workflow without ever touching the mouse.
+- **🦀 Native Automation Hooks**: Seamless Linux integration via Rust. Ttyl automatically triggers local scripts (`on_start.sh` and `on_stop.sh`) when you start or end a focus session.
+    - *Use case*: Automatically toggle Do Not Disturb, pause Slack, or start your "Deep Work" playlist.
+- **🔒 Privacy-First & Offline**: 100% local persistence. Your data never leaves your machine. Your goals and logs are stored in standard JSON files within your system configuration.
+- **🎨 Premium Aesthetic**: A warm, user-centric interface inspired by Claude/Anthropic’s design language—soft creams, subtle shadows, and terracotta accents.
 
 ---
 
-## 💻 Ejecución y Desarrollo Local
+## 🛠 Tech Stack
 
-Dado que Ttyl es una aplicación nativa envuelta con Tauri, necesitas ciertas bibliotecas de C/C++ instaladas en tu sistema Linux así como el compilador de Rust.
+Ttyl is built for speed and efficiency using a state-of-the-art modern stack:
 
-### Requisitos Previos
+### **Backend & Core**
+- **[Rust](https://www.rust-lang.org/)**: Powering the native system interactions and performance-critical operations.
+- **[Tauri v2](https://tauri.app/)**: Providing a secure, lightweight desktop wrapper with a tiny binary footprint.
 
-Asegúrate de instalar los binarios que compilan componentes WebKit y GTK necesarios en el sistema host en Ubuntu/Debian:
+### **Frontend & UI**
+- **[React 19](https://react.dev/)**: For a declarative and responsive user interface.
+- **[TypeScript](https://www.typescriptlang.org/)**: Ensuring type safety across the entire application.
+- **[Tailwind CSS](https://tailwindcss.com/)**: For utility-first, modern styling.
+- **[Zustand](https://github.com/pmndrs/zustand)**: A lightweight state management solution.
+- **[Radix UI](https://www.radix-ui.com/)**: Accessible, unstyled primitives for high-quality components.
+- **[cmdk](https://cmdk.paco.me/)**: A fast, composable command menu.
 
+---
+
+## 🚀 Getting Started
+
+### **Prerequisites (Linux)**
+
+Since Ttyl is a native application, you need to have the Rust compiler and WebKit/GTK development libraries installed on your system.
+
+**For Ubuntu/Debian:**
 ```bash
 sudo apt update
 sudo apt install -y pkg-config build-essential libwebkit2gtk-4.1-dev libssl-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev
 ```
 
-### Inicialización
+### **Installation & Development**
 
-1. Instala las dependencias y bibliotecas de NPM empaquetadas:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/marcestruch/ttyl.git
+   cd ttyl
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Run in development mode:**
+   ```bash
+   npm run tauri dev
+   ```
+
+4. **Build for production:**
+   ```bash
+   npm run tauri build
+   ```
+
+---
+
+## ⚡ Automation Hooks
+
+Ttyl allows you to automate your system state based on your focus status. Create the following files in your config directory (usually `~/.config/ttyl/` on Linux):
+
+- **`on_start.sh`**: Executed when you click "Start Focus".
+- **`on_stop.sh`**: Executed when the timer ends or is stopped.
+
+### Example `on_start.sh`:
 ```bash
-npm install
+#!/bin/bash
+# Enable Ubuntu Do Not Disturb
+gsettings set org.gnome.desktop.notifications show-banners false
+# Pause Slack (if running via flatpak)
+flatpak kill com.slack.Slack
 ```
 
-2. Lanza el servidor en vivo:
-```bash
-npm run tauri dev
-```
+---
 
-La aplicación compilará los Hooks expuestos por Rust y te lanzará la pantalla de Onboarding.
+## 📝 License
 
-<br/>
+Distributed under the **MIT License**. See `LICENSE` for more information.
 
-*Designed for Flow. Build something wonderful. Ttyl.*
+---
+
+<div align="center">
+  <p><i>Designed for Flow. Build something wonderful. · <b>Ttyl.</b></i></p>
+</div>

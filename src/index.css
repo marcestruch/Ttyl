@@ -81,16 +81,32 @@
 @layer base {
   * {
     @apply border-border;
+    user-select: none;
+    -webkit-user-drag: none;
   }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    @apply bg-background;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
     font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  input, textarea, [contenteditable="true"], .selectable {
+    user-select: text;
   }
 }
 
 ::selection {
-  background-color: hsl(var(--primary) / 0.2);
-  color: hsl(var(--foreground));
+  background-color: hsl(var(--primary) / 0.3);
+  color: inherit;
 }
 
 html {
@@ -111,3 +127,4 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground));
 }
+

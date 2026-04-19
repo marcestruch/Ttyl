@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- Rounded square background -->
+  <rect width="1024" height="1024" rx="230" ry="230" fill="#FBF8F1" />
+  
+  <!-- Text in the center -->
+  <text x="512" y="550" text-anchor="middle" dominant-baseline="middle" font-family="'Times New Roman', 'Georgia', 'DejaVu Serif', serif" font-size="460" font-weight="normal" fill="#2E2C29" letter-spacing="-8">ttyl</text>
+</svg>

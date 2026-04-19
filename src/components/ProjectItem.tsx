@@ -1,13 +1,13 @@
-import React from 'react';
 import { Project } from '../lib/storage';
 
 interface ProjectItemProps {
   project: Project;
   isActive: boolean;
   onSelect: () => void;
+  pendingCount?: number;
 }
 
-export function ProjectItem({ project, isActive, onSelect }: ProjectItemProps) {
+export function ProjectItem({ project, isActive, onSelect, pendingCount }: ProjectItemProps) {
   return (
     <button
       onClick={onSelect}
@@ -24,6 +24,14 @@ export function ProjectItem({ project, isActive, onSelect }: ProjectItemProps) {
         />
         <span className="truncate">{project.name}</span>
       </div>
+      
+      {pendingCount !== undefined && pendingCount > 0 && (
+        <span className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold min-w-[1.25rem] ${
+          isActive ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground group-hover:bg-sidebar-accent'
+        }`}>
+          {pendingCount}
+        </span>
+      )}
     </button>
   );
 }

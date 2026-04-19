@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, FormEvent } from 'react';
 import { useAppStore } from '../store/useAppStore';
 import { Task } from '../lib/storage';
 import { Plus, Maximize2, Minimize2 } from 'lucide-react';
@@ -25,7 +25,7 @@ export function TaskInput() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !activeProjectId) return;
 
@@ -70,7 +70,7 @@ export function TaskInput() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Add task... (Press / to focus)"
+            placeholder="Añadir tarea... (Pulsa / para enfocar)"
             className="flex-1 bg-transparent border-none outline-none text-base placeholder:text-muted-foreground py-1"
           />
           <button 
@@ -87,22 +87,22 @@ export function TaskInput() {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Description (Markdown supported)"
+              placeholder="Descripción (Markdown soportado)"
               className="w-full bg-transparent border-none outline-none resize-none text-sm min-h-[80px] mb-4"
             />
             
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-muted-foreground">Priority</span>
+                  <span className="text-xs text-muted-foreground">Prioridad</span>
                   <select 
                     value={priority} 
                     onChange={(e) => setPriority(e.target.value as any)}
                     className="text-xs bg-accent text-foreground border-none rounded p-1 outline-none appearance-none"
                   >
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
+                    <option value="low">Baja</option>
+                    <option value="medium">Media</option>
+                    <option value="high">Alta</option>
                   </select>
                 </div>
                 
@@ -124,7 +124,7 @@ export function TaskInput() {
                 disabled={!title.trim()}
                 className="px-4 py-1.5 bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 disabled:opacity-50 transition-colors"
               >
-                Add Task
+                Añadir Tarea
               </button>
             </div>
           </div>

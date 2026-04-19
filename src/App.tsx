@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppStore } from "./store/useAppStore";
 import Onboarding from "./views/Onboarding";
 import Dashboard from "./views/Dashboard";

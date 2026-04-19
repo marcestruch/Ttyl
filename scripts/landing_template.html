@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ttyl — Talk To You Later</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #c5614d;
+            --background: #fbfaf9;
+            --text: #1a1a1a;
+            --muted: #666;
+            --card-bg: rgba(255, 255, 255, 0.8);
+        }
+
+        .dark {
+            --background: #161413;
+            --text: #e8e4df;
+            --card-bg: rgba(30, 28, 26, 0.8);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.5s ease;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+        /* Hero Section */
+        header {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 10px 20px rgba(197, 97, 77, 0.2));
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 5rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            font-size: 1.5rem;
+            color: var(--muted);
+            max-width: 600px;
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 99px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 10px 30px rgba(197, 97, 77, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(197, 97, 77, 0.4);
+        }
+
+        /* Features */
+        .features {
+            padding: 8rem 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(197, 97, 77, 0.1);
+            padding: 3rem;
+            border-radius: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Mockup area */
+        .mockup {
+            width: 100%;
+            height: 500px;
+            background: #eee;
+            border-radius: 3rem;
+            margin: 4rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: monospace;
+            color: #999;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            border: 8px solid rgba(255,255,255,0.5);
+        }
+
+        .mockup img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .cta-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="/projects/ttyl/ttyl_logo.png" alt="Ttyl Logo" style="width: 100%; height: 100%;">
+            </div>
+            <h1>Talk To You Later</h1>
+            <p class="subtitle">La herramienta de productividad minimalista diseñada para el enfoque profundo. Termina lo que empezaste.</p>
+            
+            <div class="cta-group">
+                <a href="/projects/ttyl/ttyl_0.1.0_amd64.deb" class="btn btn-primary">Descargar para Linux (.deb)</a>
+                <a href="#" class="btn" style="border: 1px solid var(--primary); color: var(--primary);">Ver en GitHub</a>
+            </div>
+        </header>
+
+        <div class="mockup">
+             <!-- Aquí iría una captura de la app -->
+             <img src="/projects/ttyl/screenshot.png" alt="Captura de Ttyl" onerror="this.parentNode.innerHTML='[ Inserta captura de la App aquí ]'">
+        </div>
+
+        <section class="features">
+            <div class="feature-card">
+                <span class="feature-icon">🎯</span>
+                <h3>Enfoque Profundo</h3>
+                <p>Bloquea distracciones y céntrate en una sola tarea a la vez con el temporizador Pomodoro integrado.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">☕</span>
+                <h3>Modo Descanso</h3>
+                <p>Gestión automática de ciclos de descanso para que tu cerebro nunca se agote.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">📂</span>
+                <h3>Proyectos Locales</h3>
+                <p>Tus datos son tuyos. Todo se guarda localmente en tu sistema, sin cuentas ni nubes.</p>
+            </div>
+        </section>
+
+        <footer style="padding: 4rem 0; text-align: center; color: var(--muted); font-size: 0.9rem;">
+            &copy; 2026 Marc Estruch. Hecho con ❤️ para creadores.
+        </footer>
+    </div>
+</body>
+</html>
