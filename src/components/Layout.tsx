@@ -7,9 +7,12 @@ import { LayoutPanelLeft } from 'lucide-react';
 interface LayoutProps {
   children: ReactNode;
   onSettingsClick: () => void;
+  onSkillsClick: () => void;
+  onDashboardClick: () => void;
+  activeView: 'dashboard' | 'settings' | 'skills';
 }
 
-export function Layout({ children, onSettingsClick }: LayoutProps) {
+export function Layout({ children, onSettingsClick, onSkillsClick, onDashboardClick, activeView }: LayoutProps) {
   const { toggleSidebar, sidebarOpen } = useAppStore();
 
   useEffect(() => {
@@ -28,7 +31,12 @@ export function Layout({ children, onSettingsClick }: LayoutProps) {
       className="flex w-full h-screen overflow-hidden bg-background text-foreground"
       style={{ '--sidebar-width': sidebarOpen ? '288px' : '0px' } as React.CSSProperties}
     >
-      <Sidebar onSettingsClick={onSettingsClick} />
+      <Sidebar 
+        onSettingsClick={onSettingsClick} 
+        onSkillsClick={onSkillsClick}
+        onDashboardClick={onDashboardClick}
+        activeView={activeView}
+      />
       
       <main className="flex-1 relative overflow-y-auto">
         {/* Toggle button when sidebar is closed */}

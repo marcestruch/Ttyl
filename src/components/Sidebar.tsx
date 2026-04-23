@@ -4,8 +4,16 @@ import { Settings, Plus, LayoutPanelLeft, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { useState } from 'react';
 import { Project } from '../lib/storage';
+import { Target } from 'lucide-react'; // Or any other suitable icon like Award or BarChart
 
-export function Sidebar({ onSettingsClick }: { onSettingsClick: () => void }) {
+interface SidebarProps {
+  onSettingsClick: () => void;
+  onSkillsClick: () => void;
+  onDashboardClick: () => void;
+  activeView: 'dashboard' | 'settings' | 'skills';
+}
+
+export function Sidebar({ onSettingsClick, onSkillsClick, onDashboardClick, activeView }: SidebarProps) {
   const { projects, tasks, activeProjectId, setActiveProject, sidebarOpen, toggleSidebar, addProject } = useAppStore();
   const [showNewProject, setShowNewProject] = useState(false);
   const [newProjectName, setNewProjectName] = useState('');
@@ -89,8 +97,13 @@ export function Sidebar({ onSettingsClick }: { onSettingsClick: () => void }) {
                 <ProjectItem 
                   key={project.id} 
                   project={project} 
-                  isActive={activeProjectId === project.id}
-                  onSelect={() => setActiveProject(project.id)}
+                  isActive={activeView === 'dashboard' && activeProjectId === project.id}
+                  onSelect={() => {
+                    setActiveProject(project.id);
+                    if (activeView !== 'dashboard') {
+                      onDashboardClick();
+                    }
+                  }}
                   pendingCount={pendingCount}
                 />
               );
@@ -100,10 +113,24 @@ export function Sidebar({ onSettingsClick }: { onSettingsClick: () => void }) {
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-sidebar-border">
+      <div className="p-4 border-t border-sidebar-border space-y-1">
+        <button 
+          onClick={onDashboardClick}
+          className={`flex items-center gap-3 w-full px-3 py-2 text-sm rounded-lg transition-colors ${activeView === 'dashboard' ? 'bg-sidebar-accent text-sidebar-foreground font-medium' : 'text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground'}`}
+        >
+          <LayoutPanelLeft className="w-4 h-4" />
+          <span>Dashboard</span>
+        </button>
+        <button 
+          onClick={onSkillsClick}
+          className={`flex items-center gap-3 w-full px-3 py-2 text-sm rounded-lg transition-colors ${activeView === 'skills' ? 'bg-sidebar-accent text-sidebar-foreground font-medium' : 'text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground'}`}
+        >
+          <Target className="w-4 h-4" />
+          <span>Skills</span>
+        </button>
         <button 
           onClick={onSettingsClick}
-          className="flex items-center gap-3 w-full px-3 py-2 text-sm text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground rounded-lg transition-colors"
+          className={`flex items-center gap-3 w-full px-3 py-2 text-sm rounded-lg transition-colors ${activeView === 'settings' ? 'bg-sidebar-accent text-sidebar-foreground font-medium' : 'text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground'}`}
         >
           <Settings className="w-4 h-4" />
           <span>Ajustes</span>

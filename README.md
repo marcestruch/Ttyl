@@ -60,7 +60,15 @@ sudo apt update
 sudo apt install -y pkg-config build-essential libwebkit2gtk-4.1-dev libssl-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev
 ```
 
-### **Installation & Development**
+### **Quick Install (Linux)**
+
+The easiest way to install Ttyl on Linux is using our one-line installation script. This will download the latest AppImage release and set it up in your application launcher automatically:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/marcestruch/ttyl/main/install.sh | bash
+```
+
+### **Manual Build & Development**
 
 1. **Clone the repository:**
    ```bash
